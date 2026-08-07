@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -740,7 +742,7 @@ details p { margin:0; padding:0 22px 20px; color:var(--muted); font-size:14px; }
     <div class="container">
       <details>
         <summary>Política de privacidade</summary>
-        <p>Esta página não armazena os dados preenchidos no formulário. Ao enviar uma consulta, as informações são usadas apenas para montar uma mensagem e abrir o WhatsApp. Parâmetros de campanha podem ser lidos exclusivamente para mensurar a origem do anúncio.</p>
+        <p>Esta página não armazena os dados preenchidos no formulário. Ao enviar uma consulta, as informações são usadas apenas para montar uma mensagem e direcionar você ao WhatsApp por uma página de confirmação. Parâmetros de campanha podem ser lidos exclusivamente para mensurar a origem do anúncio.</p>
       </details>
     </div>
   </section>
@@ -760,7 +762,7 @@ details p { margin:0; padding:0 22px 20px; color:var(--muted); font-size:14px; }
 
   // CONFIGURAÇÃO PRINCIPAL
   const CONFIG = {
-    whatsappNumber: '5551984298427',
+    whatsappRedirectUrl: 'https://protasiogas.github.io/protasiogas/whatsapp/',
     businessName: 'Protásio Gás e Água'
   };
 
@@ -772,7 +774,9 @@ details p { margin:0; padding:0 22px 20px; color:var(--muted); font-size:14px; }
 
   function buildWhatsappUrl(message) {
     const suffix = campaignInfo ? `\n\nOrigem do anúncio: ${campaignInfo}` : '';
-    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message + suffix)}`;
+    const redirectUrl = new URL(CONFIG.whatsappRedirectUrl);
+    redirectUrl.searchParams.set('text', message + suffix);
+    return redirectUrl.toString();
   }
 
   // Ponto único para conectar conversões do Google Ads e GA4.
